@@ -82,7 +82,7 @@ namespace FuseSharp.Examples
                     return new MirrorFileSystem(mountPoint);
 
                 case "encrypted":
-                    return new CodiceFileSystem(mountPoint);
+                    return new EncryptedFileSystem(mountPoint);
             }
 
             throw new ArgumentException("Invalid FileSystem id", "id");
