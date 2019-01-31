@@ -31,7 +31,7 @@ The project is **not** available in NuGet for now. In order to start using it, y
      * .NET Core SDK.
      * Apple Developer Tools.
 3. Compile and install the adaptor library:
-     * Executing the `buildandcopy` script located at ``/src/Adaptor`
+     * Executing the `buildandcopy` script located at `/src/Adaptor`
 4. Compile the FuseSharp library and the example application:
      * Executing `dotnet build` at `/src/FuseSharp`, or oppening the FuseSharp solution with your IDE of choice and building it.
 
@@ -48,7 +48,9 @@ It implements two different User-Space Filesystems:
 * Mirror: it creates a mirror FS, mounted at the specified path, mirroring the content of the root path specified.
 * Encrypted: it creates an encrypted FS,  mounted at the specified path, mirroring and encrypting/decrypting the content of the root path specified on the fly.
 
-To implement your own FileSystem, you need to subclass the ``FileSystem`` type, overriding the necessary methods. You can browse the example to see how.
+To implement your own FileSystem, you need to subclass the ``FileSystem`` type, overriding the necessary methods. You can browse the example to see how. Here's a little GIF demonstrating how it works:
+
+![FuseSharp demo demonstration](https://raw.githubusercontent.com/PlasticSCM/FuseSharp/master/img/demo.gif)
 
 Once you have finished your FileSystem, mounting it is as easy as this:
 
