@@ -1,10 +1,11 @@
 # FuseSharp
 
-FuseSharp is a **FUSE** wrapper for **macOS** developed in C# by Códice Software.  
+FuseSharp is a **FUSE** wrapper for **macOS** (GNU/Linux in the future) developed in C# by Códice Software.  
 It provides a clean API designed specifically to enable the development of userspace filesystems in .NET applications.  
 FuseSharp only uses .NET Standard 2.0 features, so it is highly interoperable with other .NET Platforms such as Core, Mono, and Xamarin.Mac.  
 
 * [Goal](##-goal)
+  * [Usage scenarios](###-usage-scenarios)
 * [Setup and usage](##-setup-and-usage)
 * [Project Overview](##-project-overview)
 * [Performance tests](##-performance-tests)
@@ -21,13 +22,32 @@ The goal of this project is to provide an API which enables C# applications to e
 |           Mono |             5.4 |
 |    Xamarin.Mac |             3.8 |
 
+### Usage scenarios
+
+If you stumbled with this repository by accident, you might be wondering _"why would I want / need to build a filesystem in user space?"_ The answer is: a filesystem adds a layer of abstraction that empowers and eases use cases you might not have think of even before.
+
+And because said FS is running on user space, you can let FUSE make the heavy lifting, while you will only need to focus on what really matters development-wise.
+
+Do you know there is a filesystem that lets you watch YouTube videos as if they were locally stored in you machine, without having to navigate to the web portal? Or that you can add a transparent encryption layer to a directory tree, to let your users have a secure storage without having to deal with how files are encrypted and decrypted?
+
+Here are some other FUSE-powered filesystem implementations in the wild that might inspire you (mind that **none** of them were developed using FuseSharp, let us know if you implement one yourself with this library!):
+
+* [**SSHFS**](https://github.com/osxfuse/osxfuse/wiki/SSHFS): Mounts a remote directory tree through a SSH connection.
+* [**EXT**](https://github.com/osxfuse/osxfuse/wiki/Ext): Provides [EXT filesystem](https://en.wikipedia.org/wiki/Extended_file_system) support for macOS (read by default, but write can be enabled).
+* [**NTFS-3G**](https://github.com/osxfuse/osxfuse/wiki/NTFS-3G): Provides [NTFS filesystem](https://en.wikipedia.org/wiki/NTFS) support for macOS (both read and write).
+* [**XFS**](https://github.com/osxfuse/osxfuse/wiki/XFS): Provides [XFS filesystem](https://en.wikipedia.org/wiki/XFS) support for macOS.
+* [**procfs**](https://github.com/osxfuse/osxfuse/wiki/procfs): Implements a [procfs filesystem](https://en.wikipedia.org/wiki/Procfs) on macOS, which [is not provided by default](http://osxbook.com/book/bonus/chapter11/procfs/).
+* [**Accessibility FS**](https://code.google.com/archive/p/macfuse/wikis/MACFUSE_FS_ACCESSIBILITYFS.wiki): A filesystem that exposes the applications that are running in your computer, and the user interface elements said applications expose (including the properties of this GUI components!).
+* [**YouTube FS**](https://code.google.com/archive/p/youtubefs/): YoutubeFS enables you to browse your favorite Youtube videos locally on your desktop without going to the youtube website.
+* [**fuse-zip**](https://bitbucket.org/agalanin/fuse-zip): Implements a filesystem to navigate, extract, create and modify ZIP and ZIP64 archives based on libzip implemented in C++, working with ZIP archives as real directories.
+
 ## Setup and usage
 
 The project is **not** available in NuGet for now. In order to start using it, you must follow these steps:
 
 1. Clone this repository.
 2. Install dependencies:
-     * glib 2.56.1. It is available for macOS users through brew.
+     * ``glib`` 2.56.1. It is available for macOS users through ``brew``.
      * .NET Core SDK.
      * Apple Developer Tools.
 3. Compile and install the adaptor library:
@@ -46,15 +66,15 @@ The application is self-explanatory if executed without arguments.
 It implements two different User-Space Filesystems:
 
 * Mirror: it creates a mirror FS, mounted at the specified path, mirroring the content of the root path specified.
-* Encrypted: it creates an encrypted FS,  mounted at the specified path, mirroring and encrypting/decrypting the content of the root path specified on the fly.
+* Encrypted: it creates an encrypted FS, mounted at the specified path, mirroring and encrypting/decrypting the content of the root path specified on the fly.
 
-To implement your own FileSystem, you need to subclass the ``FileSystem`` type, overriding the necessary methods. You can browse the example to see how. Here's a little GIF demonstrating how it works:
+To implement your own filesystem, you need to subclass the ``filesystem`` type, overriding the necessary methods. You can browse the example to see how. Here's a little GIF demonstrating how it works:
 
 ![FuseSharp demo demonstration](https://raw.githubusercontent.com/PlasticSCM/FuseSharp/master/img/demo.gif)
 
-Once you have finished your FileSystem, mounting it is as easy as this:
+Once you have finished your filesystem, mounting it is as easy as this:
 
-```csharp
+```
 using (MyOwnFileSystemImpl fs = new MyOwnFileSystemImpl(targetRoot))
 using (FileSystemHandler fsh = new FileSystemHandler(fs, args))
 {
@@ -79,7 +99,7 @@ The arguments used to instantiate a `FileSystemHandler` instance are, in the end
 
 ## Project Overview
 
-Filesystems in macOS live in the kernel, and as such any modifications would require kernel extensions. To avoid this, FUSE (Filesystem in USErspace) was developed. It allows userspace programs to supply a filesystem to the kernel. The developer is thus free to implement the filesystem however they wish.
+Filesystems in macOS live in the kernel, and as such any modifications would require kernel extensions. To avoid this, FUSE (filesystem in USErspace) was developed. It allows userspace programs to supply a filesystem to the kernel. The developer is thus free to implement the filesystem however they wish.
 
 The FUSE project consists of two components: the FUSE kernel module, and the LIBFUSE userspace library. LIBFUSE provides the reference implementation for communicating with the FUSE kernel module.
 
