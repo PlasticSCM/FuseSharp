@@ -4,12 +4,12 @@ FuseSharp is a **FUSE** wrapper for **macOS** (GNU/Linux in the future) develope
 It provides a clean API designed specifically to enable the development of userspace filesystems in .NET applications.  
 FuseSharp only uses .NET Standard 2.0 features, so it is highly interoperable with other .NET Platforms such as Core, Mono, and Xamarin.Mac.  
 
-* [Goal](##-goal)
-  * [Usage scenarios](###-usage-scenarios)
-* [Setup and usage](##-setup-and-usage)
-* [Project Overview](##-project-overview)
-* [Performance tests](##-performance-tests)
-* [License](##-license)
+* [Goal](#goal)
+  * [Usage scenarios](#usage-scenarios)
+* [Setup and usage](#setup-and-usage)
+* [Project Overview](#project-overview)
+* [Performance tests](#performance-tests)
+* [License](#license)
 
 ## Goal
 
