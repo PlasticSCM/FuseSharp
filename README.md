@@ -24,9 +24,9 @@ The goal of this project is to provide an API which enables C# applications to e
 
 ### Usage scenarios
 
-If you stumbled with this repository by accident, you might be wondering _"why would I want / need to build a filesystem in user space?"_ The answer is: a filesystem adds a layer of abstraction that empowers and eases use cases you might not have think of even before.
+If you stumbled with this repository by accident, you might be wondering _"why would I want / need to build a filesystem in user space?"_ The answer is: a filesystem adds a layer of abstraction that empowers and eases use cases you might not have thought of before.
 
-And because said FS is running on user space, you can let FUSE make the heavy lifting, while you will only need to focus on what really matters development-wise.
+And because said FS is running on user space, you can let FUSE do the heavy lifting, while you will only need to focus on what really matters development-wise.
 
 Do you know there is a filesystem that lets you watch YouTube videos as if they were locally stored in you machine, without having to navigate to the web portal? Or that you can add a transparent encryption layer to a directory tree, to let your users have a secure storage without having to deal with how files are encrypted and decrypted?
 
@@ -55,7 +55,8 @@ The project is **not** available in NuGet for now. In order to start using it, y
 4. Compile the FuseSharp library and the example application:
      * Executing `dotnet build` at `/src/FuseSharp`, or oppening the FuseSharp solution with your IDE of choice and building it.
 
-Once you followed these steps, you can add your `FuseSharp.dll` assembly as a project dependence.  
+Once you complete
+these steps, you can add your `FuseSharp.dll` assembly as a project dependence.  
 If you distribute an application that uses FuseSharp, bear in mind that, in order to run the application, **the target machine needs to have installed the ``Adaptor.dylib`` library** compiled at step 3.
 
 ### Example application
@@ -99,7 +100,7 @@ The arguments used to instantiate a `FileSystemHandler` instance are, in the end
 
 ## Project Overview
 
-Filesystems in macOS live in the kernel, and as such any modifications would require kernel extensions. To avoid this, FUSE (filesystem in USErspace) was developed. It allows userspace programs to supply a filesystem to the kernel. The developer is thus free to implement the filesystem however they wish.
+Filesystems in macOS live in the kernel, and as such any modifications would require kernel extensions. To avoid this, FUSE (Filesystem in USErspace) was developed. It allows userspace programs to supply a filesystem to the kernel. The developer is thus free to implement the filesystem however they wish.
 
 The FUSE project consists of two components: the FUSE kernel module, and the LIBFUSE userspace library. LIBFUSE provides the reference implementation for communicating with the FUSE kernel module.
 
