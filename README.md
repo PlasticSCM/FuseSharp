@@ -24,11 +24,11 @@ The goal of this project is to provide an API which enables C# applications to e
 
 ### Usage scenarios
 
-If you stumbled with this repository by accident, you might be wondering _"why would I want / need to build a filesystem in user space?"_ The answer is: a filesystem adds a layer of abstraction that empowers and eases use cases you might not have thought of before.
+If you stumbled upon this repository by accident, you might be wondering _"why would I want / need to build a filesystem in user space?"_ The answer is: a filesystem adds a layer of abstraction that empowers and eases use cases you might not have thought of before.
 
 And because said FS is running on user space, you can let FUSE do the heavy lifting, while you will only need to focus on what really matters development-wise.
 
-Do you know there is a filesystem that lets you watch YouTube videos as if they were locally stored in you machine, without having to navigate to the web portal? Or that you can add a transparent encryption layer to a directory tree, to let your users have a secure storage without having to deal with how files are encrypted and decrypted?
+Did you know there is a filesystem that lets you watch YouTube videos as if they were locally stored in you machine, without having to navigate to the web portal? Or that you can add a transparent encryption layer to a directory tree, to let your users have a secure storage without having to deal with how files are encrypted and decrypted?
 
 Here are some other FUSE-powered filesystem implementations in the wild that might inspire you (mind that **none** of them were developed using FuseSharp, let us know if you implement one yourself with this library!):
 
@@ -53,10 +53,9 @@ The project is **not** available in NuGet for now. In order to start using it, y
 3. Compile and install the adaptor library:
      * Executing the `buildandcopy` script located at `/src/Adaptor`
 4. Compile the FuseSharp library and the example application:
-     * Executing `dotnet build` at `/src/FuseSharp`, or oppening the FuseSharp solution with your IDE of choice and building it.
+     * Executing `dotnet build` at `/src/FuseSharp`, or opening the FuseSharp solution with your IDE of choice and building it.
 
-Once you complete
-these steps, you can add your `FuseSharp.dll` assembly as a project dependence.  
+Once you complete these steps, you can add your `FuseSharp.dll` assembly as a project dependency.  
 If you distribute an application that uses FuseSharp, bear in mind that, in order to run the application, **the target machine needs to have installed the ``Adaptor.dylib`` library** compiled at step 3.
 
 ### Example application
@@ -69,7 +68,7 @@ It implements two different User-Space Filesystems:
 * Mirror: it creates a mirror FS, mounted at the specified path, mirroring the content of the root path specified.
 * Encrypted: it creates an encrypted FS, mounted at the specified path, mirroring and encrypting/decrypting the content of the root path specified on the fly.
 
-To implement your own filesystem, you need to subclass the ``filesystem`` type, overriding the necessary methods. You can browse the example to see how. Here's a little GIF demonstrating how it works:
+To implement your own filesystem, you need to subclass the ``FileSystem`` type, overriding the necessary methods. You can browse the example to see how. Here's a little GIF demonstrating how it works:
 
 ![FuseSharp demo demonstration](https://raw.githubusercontent.com/PlasticSCM/FuseSharp/master/img/demo.gif)
 
@@ -85,7 +84,7 @@ using (FileSystemHandler fsh = new FileSystemHandler(fs, args))
 
 ### FileSystemHandler arguments
 
-The arguments used to instantiate a `FileSystemHandler` instance are, in the end, passed down to FUSE. FUSE's arguments documentation is sometimes hard to find, but we have collected and tested the following (appart from the [usual args](https://github.com/osxfuse/osxfuse/wiki/Mount-options)):
+The arguments used to instantiate a `FileSystemHandler` instance are, in the end, passed down to FUSE. FUSE's arguments documentation is sometimes hard to find, but we have collected and tested the following (apart from the [usual args](https://github.com/osxfuse/osxfuse/wiki/Mount-options)):
 
 | Option | Description | Source |
 |--------|-------------|--------|
@@ -106,7 +105,7 @@ The FUSE project consists of two components: the FUSE kernel module, and the LIB
 
 A FUSE filesystem is typically implemented as a standalone application tthat links with LIBFUSE. The later provides functions to mount the filesystem, unmount it, read requests from the kernel, and send responses back.
 
-In addition to registering a new filesystem, FUSE's kernel module also registers a `/dev/fuse `block device. This device serves as an interface between user-space FUSE daemons and the kernel. In general, daemon reads FUSE requests from /dev/fuse, processes them, and then writes replies back to `/dev/fuse`.
+In addition to registering a new filesystem, FUSE's kernel module also registers a `/dev/fuse` block device. This device serves as an interface between user-space FUSE daemons and the kernel. In general, daemon reads FUSE requests from `/dev/fuse`, processes them, and then writes replies back to `/dev/fuse`.
 
 ![FuseSharp architecture overview](https://raw.githubusercontent.com/PlasticSCM/FuseSharp/master/img/architecture.png)
 
@@ -118,7 +117,7 @@ Some filesystem operations invoked by an application can complete without commun
 
 FuseSharp also consists of two components. An ``Adaptor.dylib`` library that wraps calls to the libfuse library, and the FuseSharp DLL itself, which communicates with the former through a set of callbacks passed down using the `pinvoke` mechanism.
 
-We took this aproach because we found that the libfuse library is complicated and very poorly documented (the code is the documentation, but the complexity of the code makes it difficult to easily understand it's intention). This Adaptor library, written in C, implements the key steps of setting up a communication channel with the FUSE kernel, and the processing loop, in a simpler way that handling all at once in .NET space.
+We took this aproach because we found that the libfuse library is complicated and very poorly documented (the code is the documentation, but the complexity of the code makes it difficult to easily understand its intention). This Adaptor library, written in C, implements the key steps of setting up a communication channel with the FUSE kernel, and the processing loop, in a simpler way that handling all at once in .NET space.
 
 FuseSharp leverages modern .NET approaches to file handling, threading and memory management, and exposes a modern API designed specifically to enable the development of userspace filesystems, through a simple architecture implemented solely using .NET Standard.
 
@@ -126,7 +125,7 @@ FuseSharp leverages modern .NET approaches to file handling, threading and memor
 
 Here you can compare FuseSharp performance against the equivalent C and native HFS+ operations. This is still untested against APFS.
 
-All of the times are measured in seconds.  
+All of the timings are measured in seconds.  
 Each value is the average after executing the same test case three times.  
 Each test was executed:
 
