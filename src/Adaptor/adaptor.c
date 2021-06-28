@@ -78,6 +78,12 @@ adaptor_rename (const char *oldpath, const char *newpath)
 }
 
 static int
+adaptor_renamex (const char *oldpath, const char *newpath, unsigned int flags)
+{
+    return _adaptor_get_private_data()->renamex (oldpath, newpath, flags);
+}
+
+static int
 adaptor_link (const char *oldpath, const char *newpath)
 {
     return _adaptor_get_private_data()->link (oldpath, newpath);
@@ -371,6 +377,7 @@ static void initalise_fuse_operations_struct (struct NetFuse_Operations *from, s
     if (from->rmdir)        to->rmdir       = adaptor_rmdir;
     if (from->symlink)      to->symlink     = adaptor_symlink;
     if (from->rename)       to->rename      = adaptor_rename;
+    if (from->renamex)      to->renamex     = adaptor_renamex;
     if (from->link)         to->link        = adaptor_link;
     if (from->chmod)        to->chmod       = adaptor_chmod;
     if (from->chown)        to->chown       = adaptor_chown;

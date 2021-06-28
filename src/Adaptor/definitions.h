@@ -54,6 +54,7 @@ typedef int (*RemoveDirectoryCb) (const char* path);
 typedef int (*RemoveFileCb) (const char* path);
 typedef int (*RemovePathExtendedAttributeCb) (const char* path, const char* name);
 typedef int (*RenamePathCb) (const char* oldpath, const char* newpath);
+typedef int (*RenameXPathCb) (const char* oldpath, const char* newpath, unsigned int flags);
 typedef int (*SetPathExtendedAttributeCb) (const char* path, const char* name, unsigned char* value, guint64 size, int flags);
 typedef int (*SynchronizeDirectoryCb) (const char* path, int onlyUserData, void* info);
 typedef int (*SynchronizeHandleCb) (const char* path, int onlyUserData, void* info);
@@ -92,6 +93,7 @@ struct NetFuse_Operations {
 	RemoveDirectoryCb               rmdir;
 	CreateSymbolicLinkCb            symlink;
 	RenamePathCb                    rename;
+	RenameXPathCb                   renamex;
 	CreateHardLinkCb                link;
 	ChangePathPermissionsCb         chmod;
 	ChangePathOwnerCb               chown;
