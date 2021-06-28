@@ -42,6 +42,7 @@ namespace FuseSharp
                 _operations.rmdir = _OnRemoveDirectory;
                 _operations.symlink = _OnCreateSymbolicLink;
                 _operations.rename = _OnRenamePath;
+                _operations.renamex = _OnRenameXPath;
                 _operations.link = _OnCreateHardLink;
                 _operations.chmod = _OnChangePathPermissions;
                 _operations.chown = _OnChangePathOwner;
@@ -242,6 +243,21 @@ namespace FuseSharp
             try
             {
                 errno = _filesystem.OnRenamePath(oldpath, newpath);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                errno = Errno.EIO;
+            }
+            return Interop.ConvertErrno(errno);
+        }
+
+        private int _OnRenameXPath(string oldpath, string newpath, uint flags)
+        {
+            Errno errno;
+            try
+            {
+                errno = _filesystem.OnRenameXPath(oldpath, newpath, (RenameFlags)flags);
             }
             catch (Exception e)
             {

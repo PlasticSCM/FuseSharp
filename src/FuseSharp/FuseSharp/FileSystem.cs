@@ -55,6 +55,11 @@ namespace FuseSharp
             return Errno.ENOSYS;
         }
 
+        public virtual Errno OnRenameXPath(string oldpath, string newpath, RenameFlags renameFlags)
+        {
+            return Errno.ENOSYS;
+        }
+
         public virtual Errno OnCreateHardLink(string oldpath, string link)
         {
             return Errno.ENOSYS;
@@ -224,6 +229,14 @@ namespace FuseSharp
             physical = ulong.MaxValue;
             return Errno.ENOSYS;
         }
+    }
 
+    [CLSCompliant(false)]
+    [Flags]
+    public enum RenameFlags: uint
+    {
+        RenameReplace = 0,
+        RenameSwap = 1 << 1,
+        RenameExcl = 1 << 2,
     }
 }
