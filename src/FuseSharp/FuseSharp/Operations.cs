@@ -33,6 +33,13 @@ namespace FuseSharp
             string oldpath,
             [MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(FileNameMarshaler))]
             string newpath);
+    public delegate int RenameXPathCb(
+            [MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(FileNameMarshaler))]
+            string oldpath,
+            [MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(FileNameMarshaler))]
+            string newpath,
+            uint flags);
+
     public delegate int CreateHardLinkCb(
             [MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(FileNameMarshaler))]
             string oldpath,
@@ -147,6 +154,7 @@ namespace FuseSharp
         public RemoveDirectoryCb rmdir;
         public CreateSymbolicLinkCb symlink;
         public RenamePathCb rename;
+        public RenameXPathCb renamex;
         public CreateHardLinkCb link;
         public ChangePathPermissionsCb chmod;
         public ChangePathOwnerCb chown;
