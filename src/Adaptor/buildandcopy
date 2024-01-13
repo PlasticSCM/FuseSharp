@@ -1,6 +1,0 @@
-#!/bin/bash
-gcc -x c -c -fPIC -o definitions.o -D_FILE_OFFSET_BITS=64 -I /usr/local/include/osxfuse/ -I /usr/local/Cellar/glib/2.56.1/include/glib-2.0/ -I /usr/local/Cellar/glib/2.56.1/lib/glib-2.0/include/ definitions.c
-gcc -x c -c -fPIC -o adaptor.o -D_FILE_OFFSET_BITS=64 -I /usr/local/include/osxfuse/ -I /usr/local/Cellar/glib/2.56.1/include/glib-2.0/ -I /usr/local/Cellar/glib/2.56.1/lib/glib-2.0/include/ adaptor.c
-gcc -shared -fPIC -o libAdaptor.dylib -L /usr/local/lib/ -losxfuse definitions.o adaptor.o -lc
-cp libAdaptor.dylib /usr/local/lib/libAdaptor.dylib
-
