@@ -11,8 +11,8 @@ OUT_FILE_NAME = libAdaptor.dylib
 CFLAGS = -x c -c -fPIC -O0 -g -Wall -fpermissive -D_FILE_OFFSET_BITS=64
 LIBFLAGS = -shared -fPIC 
 
-INC = -I /usr/local/include/osxfuse/  -I /usr/local/Cellar/glib/2.78.3/include/glib-2.0/ -I /usr/local/Cellar/glib/2.78.3/lib/glib-2.0/include/
-LIB = -L /usr/local/lib/
+INC = -I /usr/local/include/osxfuse/ $(shell pkg-config --cflags glib-2.0)
+LIBS = -L /usr/local/lib/ $(shell pkg-config --libs glib-2.0)
 
 OBJ_DIR=./obj
 OUT_DIR=./lib
@@ -20,7 +20,7 @@ INSTALL_DIR=/usr/local/lib/
 
 
 $(OUT_FILE_NAME): $(patsubst %.c,$(OBJ_DIR)/%.o,$(wildcard *.c))
-	$(CC) $(LIBFLAGS) -o $(OUT_DIR)/$(OUT_FILE_NAME) $(LIB) -l fuse $(OBJ_DIR)/*.o -lc
+	$(CC) $(LIBFLAGS) -o $(OUT_DIR)/$(OUT_FILE_NAME) $(LIBS) -l fuse $(OBJ_DIR)/*.o -lc
 
 
 $(OBJ_DIR)/%.o: %.c dirmake
